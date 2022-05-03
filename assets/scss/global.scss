@@ -1,0 +1,38 @@
+@import 'variable';
+* {
+    font-family: PingFang SC, HarmonyOS_Medium, Helvetica Neue, Microsoft YaHei, sans-serif;
+}
+body, html {
+    box-sizing: border-box;
+    margin: 0;
+    border: none;
+    height: 100%;
+}
+body a {
+    text-decoration: none;
+}
+body * {
+    text-decoration: none;
+    box-sizing: border-box;
+}
+.clear-fix::before {
+    display: table;
+    content: '';
+}
+.clear-fix::after {
+    display: table;
+    content: '';
+    clear: both;
+}
+.split-line {
+    border-top: 1px solid var(--bg-bd-color);
+}
+
+@each $key, $var in $fz {
+    .fz-#{$key} {
+        font-size: $var + px;
+    }
+}
+
+@each $var, $key in $direction {
+};

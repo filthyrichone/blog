@@ -1,0 +1,14 @@
+:root {
+    --bg-text-color: #61666D;
+    --bg-blue-color: #4d77ff;
+    --bg-deep-color: #56bbf1;
+    --bg-warning-color: #f2fa51;
+    --bg-secondary-color: #5ee6eb;
+    --bg-main-weak-color: #06edff99;
+    --bg-main-color: #06edff;
+    --bg-word-dart-color: #9499a0;
+    --bg-spare-color: #f1f2f3;
+    --bg-bd-color: #d3cece;
+}
+$direction: (t: 'top', b: 'bottom', l: 'left', r: 'right');
+$fz: (xs: 12, s: 13, m: 15, l: 18, xl: 20, xxl: 24, xxxl: 36);
