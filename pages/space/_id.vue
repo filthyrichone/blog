@@ -35,6 +35,9 @@
                 <el-form-item label="头像">
                   <el-upload
                     class="avatar-uploader"
+                    accept=".jpg,.png,.jpeg"
+                    :header="header"
+                    :with-credentials='true'
                     :action="'http://api.beta.blog.hyong1232.com:8084/web/upload/avatar'"
                     :show-file-list="false"
                     :on-success="(res) => $set(model, 'avatar', res.url)"
@@ -107,18 +110,26 @@
 </template>
 
 <script lang="ts">
+import loginTip from '@/mixins/loginTips';
+import addTokenToHeader from '@/mixins/headerAddToken';
 import { mapActions } from 'vuex'
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Vue, Component } from 'nuxt-property-decorator'
 @Component({
+  mixins: [loginTip],
   mounted() {
     ;(this as any).fetchUserInfo()
   },
   methods: {
     ...mapActions(['userInfo']),
   },
-  computed: {},
+  computed: {
+    header () {
+        return {cookie:`token=document.cookie.match(/(?<=token=).+(?=[;]?)/)[0]`}
+    }
+  },
 })
 export default class example extends Vue {
+
   genderArr = [
     { label: '男', value: 'man' },
     { label: '女', value: 'woman' },

@@ -23,7 +23,7 @@
 <script>
 export default {
   props: ['error'],
-  layout: 'blog',
+  layout: 'global',
   methods: {
       login(){
           window.open(`http://auth.hyong1232.com:8083?type=login&refer=${location.href}`, '_self')

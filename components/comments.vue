@@ -4,7 +4,7 @@
     <div class="comment-header">
       <ul>
         <li class="default-sort fz-xl">评论</li>
-        <li class="total-reply">232</li>
+        <li class="total-reply">{{ commentTotal }}</li>
         <li
           class="hot-sort"
           :class="{ on: isHotSort }"
@@ -136,7 +136,7 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
   },
 })
 export default class extends Vue {
-  @Prop({ type: Object })
+  @Prop({type: Object})
   article!: object
 
   isFocus = false
@@ -144,6 +144,8 @@ export default class extends Vue {
   replayIsFocus = false
 
   isHotSort = true
+
+  commentTotal = 0
 
   commentList = []
 
@@ -203,7 +205,8 @@ export default class extends Vue {
         (this as any).article._id,
         this.queryCondition
       )
-      this.commentList = res.map((v: any) => {
+      this.commentTotal = res.count
+      this.commentList = res.data.map((v: any) => {
         v.isShowReply = false
         return v
       })
@@ -253,7 +256,6 @@ export default class extends Vue {
   }
 }
 .comment {
-  width: 60%;
   .comment-list {
     .comment-item {
       margin: 3px 0;

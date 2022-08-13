@@ -19,7 +19,13 @@ export default {
         }
         const res = await (this as any).$http.likeAction(params)
         if (res.code === 200 && res.isActive) {
-            likeType ? item.like ++ : item.like-- ;
+            if(likeType) {
+                item.like ++;
+                item.likeCount = 1; 
+            } else {
+                item.likeCount = 0; 
+                item.like-- ;
+            } 
         }
       } catch (err) {
         console.error(err)

@@ -8,7 +8,7 @@ export default function ({ $axios, app }: any, inject: any) {
       return res
     },
     (err: any) => {
-      const status = err.response.status
+      const status = err.response && err.response.status
       if (status === 401 || status === 403) {
         Vue.prototype.$message({
           type: 'error',
@@ -20,7 +20,7 @@ export default function ({ $axios, app }: any, inject: any) {
           message: 'server error',
         })
       }
-      return err;
+      return Promise.reject(err);
     }
   )
   const axios = (config: object) => {
@@ -50,4 +50,4 @@ export default function ({ $axios, app }: any, inject: any) {
   }
   const req = reqlist(axios)
   inject('http', req)
-}
+}   

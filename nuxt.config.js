@@ -12,7 +12,7 @@ export default {
       { name: 'format-detection', content: 'telephone=no' },
     ],
     link: [
-      { rel: 'stylesheet',href: '//at.alicdn.com/t/font_3183235_dfddc6hye7t.css' },
+      { rel: 'stylesheet',href: '//at.alicdn.com/t/font_3183235_djkqm8wssp.css' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
   },
@@ -51,6 +51,7 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
+    '@nuxt/content',
     '@nuxtjs/axios',
     '@nuxtjs/proxy'
   ],

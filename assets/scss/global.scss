@@ -8,6 +8,13 @@ body, html {
     border: none;
     height: 100%;
 }
+ul {
+    margin-left: 10px;
+    padding: 0;
+    li {
+        list-style-type: none;
+    }   
+}
 body a {
     text-decoration: none;
 }

@@ -2,7 +2,7 @@ import Vue from 'vue'
 export default (axios: any) => ({
     article(id?: string) {
         return axios({
-            url: `/web/article/${id}`
+            url: id ? `/web/article/${id}`: "/web/article"
         })
     },
     fetchReplyBycommentId(commentId: string, params: object) {

@@ -1,6 +1,8 @@
 <template>
   <div class="hb-header_bar">
-    <div class="left-entry" @click="$router.push('/')">blog title</div>
+    <ul class="left-entry" @click="$router.push('/')">
+      <li>blog title</li>
+    </ul>
     <div class="center-container">
       <div
         class="content-search_bar"
@@ -73,8 +75,8 @@
         </div>
       </div>
     </div>
-    <div class="right-entry">
-      <div class="entry-item">
+    <ul class="right-entry">
+      <li class="entry-item">
         <div
           class="user-avatar"
           @mouseenter="showPopover"
@@ -121,14 +123,34 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </li>
+      <li class="entry-item">
+        <i class="iconfont icon-timeline icon-style fz-xl"></i>
+        <span class="fz-s">足迹</span>
+      </li>
+      <li class="entry-item">
+        <i class="iconfont icon-blog icon-style fz-xl"></i>
+        <span class="fz-s">博客</span>
+      </li>
+      <li class="entry-item">
+        <i class="iconfont icon-diary icon-style fz-xl"></i>
+        <span class="fz-s">日志</span>
+      </li>
+      <li class="entry-item">
+        <i class="iconfont icon-category icon-style fz-xl"></i>
+        <span class="fz-s">分类</span>
+      </li>
+      <li class="entry-item">
+        <i class="iconfont icon-tag icon-style fz-xl"></i>
+        <span class="fz-s">标签</span>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script lang="ts">
 import eventfactory from '../hooks/eventlisenter'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
 
 @Component({
@@ -160,10 +182,11 @@ import { Vue, Component, Prop } from 'nuxt-property-decorator'
     ]),
   },
   methods: {
-    ...mapActions({fetchUserInfo: 'userInfo'}),
+    ...mapMutations(['saveUserInfo']),
+    ...mapActions({ fetchUserInfo: 'userInfo' }),
   },
   computed: {
-    ...mapGetters({userInfo: 'getUserInfo'}),
+    ...mapGetters({ userInfo: 'getUserInfo' }),
     avatar(): string {
       return (
         (this as any).userInfo.avatar ||
@@ -222,28 +245,28 @@ export default class Top extends Vue {
     }, 300)
   }
 
-//   async fetchUserInfo() {
-//     const res = await (this as any).$http.getUserInfo()
-//     this.userInfo = res
-//     ;(this as any).saveUserInfo(res)
-//     console.log((this as any).user);
-    
-//   }
+  //   async fetchUserInfo() {
+  //     const res = await (this as any).$http.getUserInfo()
+  //     this.userInfo = res
+  //     ;(this as any).saveUserInfo(res)
+  //     console.log((this as any).user);
 
-  async logout() {
-    const res = await (this as any).$http.logout();
-    (this as any).userInfo = {};
+  //   }
+
+  async logout(this: any) {
+    const res = await (this as any).$http.logout()
+    this.saveUserInfo({})
   }
 
   deleteAllCookies() {
-    var cookies = document.cookie.split(";");
+    var cookies = document.cookie.split(';')
     for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i];
-        var eqPos = cookie.indexOf("=");
-        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      var cookie = cookies[i]
+      var eqPos = cookie.indexOf('=')
+      var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie
+      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
     }
-}
+  }
 
   goLogin() {
     window.open(
@@ -270,12 +293,15 @@ export default class Top extends Vue {
   box-shadow: 0 2px 4px rgb(0 0 0 / 8%);
   background: #ffffff;
   .left-entry {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    align-items: center;
     cursor: pointer;
   }
   .center-container {
-    height: 36px;
+    height: 44px;
     margin: 0 6px;
-
     .content-search_bar {
       margin: 0 auto;
       background-color: #fff;
@@ -451,18 +477,39 @@ export default class Top extends Vue {
     }
   }
   .right-entry {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    align-items: center;
     .entry-item {
+      cursor: pointer;
+      margin: 0 20px;
       position: relative;
-      &:hover .user-avatar img {
-        transition: transform 0.5s;
-        transform: scale(2) translate(2px, 26px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .icon-style {
+        margin-bottom: 4px;
+        font-weight: 600;
+        color: #8a8a8a;
+        // transform: translateY(0);
+        // transition: transform 0.4s ease-in;
+      }
+      &:hover {
+        .icon-style {
+          transform: translateY(-4px);
+          transition: all 0.2s ease-in;
+        }
+        .user-avatar img {
+          transition: transform 0.5s;
+          transform: scale(2) translate(2px, 16px);
+        }
       }
       .user-avatar {
         cursor: pointer;
-        position: absolute;
-        right: 180px;
-        top: -18px;
         z-index: 2;
+        position: relative;
         img {
           border: 2px solid #fff;
           image-rendering: -webkit-optimize-contrast;
@@ -474,10 +521,11 @@ export default class Top extends Vue {
         }
       }
       .popover {
+        transition: all 0.4s ease-in;
         cursor: pointer;
         position: absolute;
         top: 60px;
-        right: 40px;
+        left: -120px;
         box-sizing: border-box;
         .popover-content {
           box-sizing: border-box;

@@ -1,71 +1,105 @@
 <template>
-  <div class="wrapper">
-    <comments :article="article" />
+  <div class="hy-blog-container">
+    <div class="mode-ctrl-bar">
+      <div
+        class="item"
+        @click="activeMode = 'list'"
+        :class="{ active: activeMode === 'list' }"
+      >
+        <i class="iconfont icon-list-mode fz-l"></i>
+        列表模式
+      </div>
+      <div
+        class="item"
+        @click="activeMode = 'card'"
+        :class="{ active: activeMode === 'card' }"
+      >
+        <i class="iconfont icon-card-mode fz-l"></i>
+        卡片模式
+      </div>
+    </div>
+    <div class="bg-card" v-if="activeMode === 'list'">
+      <div class="card-wrap" v-for="a in article" :key="a._id">
+        <blog-list-card :data="{ bgc: '' }"></blog-list-card>
+      </div>
+    </div>
+    <div class="bg-list" v-if="activeMode === 'card'">
+      <div class="list-item">
+        <blog-card-cover></blog-card-cover>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-@Component({
-})
+@Component({})
 export default class Index extends Vue {
-  article: any = {}
 
-//   async fetch({ store, app }: any) {
-//     try {
-//       const res = await app.$http.article('62528b09d5ea787435d43203')
-//       this.article = res
-//     } catch (error) {
-//       error({ statusCode: '404', message: 'not found', detail: 'not found' })
-//     }
-//   }
+  activeMode = 'list'
+
   layout() {
-    return 'global';
+    return 'global'
   }
-  async asyncData({ $axios, error, store, app }: any) {
+
+  async asyncData({ app, $http }: any) {
     try {
-      const res = await app.$http.article('62528b09d5ea787435d43203')
-      return { article: res }
-    } catch (error) {   
+        const res = await app.$http.article() 
+      return {article: res.data}
+    } catch (error) {
       error({ statusCode: '404', message: 'not found', detail: 'not found' })
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-.wrapper {
+.hy-blog-container {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  .top-nav {
-    height: 80px;
-    min-height: 64px;
-    position: relative;
-    margin: 0 auto;
-    max-width: 2560px;
+  .bg-card {
     width: 100%;
-  }
-  .container {
-    position: relative;
-    width: 100%;
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 15px 0;
-    .content {
-      margin: 0 auto;
-      width: 80%;
+    .card-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
     }
   }
-  .footer {
-    background-color: #f9f9f9;
+  .bg-list {
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    .list-item {
+      width: 48%;
+      display: flex;
+      align-items: center;
+    }
+  }
+  .mode-ctrl-bar {
+    display: flex;
+    width: 100%;
     justify-content: center;
     align-items: center;
-    height: 60px;
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin: 20px;
+      border-radius: 4px;
+      padding: 4px;
+      cursor: pointer;
+      &.active {
+        color: var(--bg-main-color);
+        background-color: var(--bg-main-weak-color);
+      }
+      .iconfont {
+        margin: 6px;
+      }
+    }
   }
 }
 </style>
